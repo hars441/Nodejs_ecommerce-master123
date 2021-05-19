@@ -1,0 +1,54 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/cart.css">
+    <script>
+        function target_popup(form) {
+    window.open('', 'formpopup', 'width=400,height=400,resizeable,scrollbars');
+    form.target = 'formpopup';
+}
+    </script>
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <ul class="cart__item-list">
+                <% products.forEach(p => { %>
+                    <li class="cart__item">
+                        <h1><%= p.productId.title %></h1>
+                        <h2>Quantity: <%= p.quantity %></h2>
+                    </li>
+                <% }) %>
+            </ul>
+            <div class="centered">
+                <h2>Total:Rs.<%= totalSum %></h2>
+            </div>
+            <div class="centered">
+                <form action =""  onsubmit="target_popup(this)" method ="POST">
+                    <label>
+                        Name
+                    </label>
+                    <input required /><br /><br />
+                    <label>Phone</label>
+                    <input type="tel" pattern="^\d{10}$"  required  /><br /><br />
+                    <label>Address</label>
+                    <input required /><br /><br />
+                   <button  target =  '' onclick="window.alert('Details Saved')">save</button>
+                    </form><br /><br />
+                <form action="/create-order" method="POST">
+                    <script
+                      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                      data-key="pk_test_QnC1ZyTlBC02M7E7p4PIw7q700l8hWcVsL"
+                      data-amount="<%= totalSum * 100 %>"
+                      data-name="Your Order"
+                      data-description="All the items you ordered"
+                      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                      data-locale="auto"
+                      data-currency="inr">
+                    </script>
+                  </form>
+                
+            </div>
+            <h2>Our Seller Will Soon Contact you After Successful Payment</h2>
+            <span style="position:relative;left:500px;top:10px;">Created By Harsh &copy;2020</span>
+        </main>
+        <%- include('../includes/end.ejs') %>
